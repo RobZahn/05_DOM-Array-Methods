@@ -23,7 +23,33 @@ async function getRandomUser() {
     money: Math.floor(Math.random() * 1000000)
   };
 
-  // addData(newUser);
+  addData(newUser);
 }
 
 // Add new object to data array
+function addData(obj) {
+  data.push(obj);
+
+  updateDOM();
+}
+
+// Update DOM to reflect results
+function updateDOM(providedData = data) {
+  // Clear main div
+  main.innerHTML = '<h2><strong>Person</strong> Wealth</h2>';
+
+  providedData.forEach(item => {
+    const element = document.createElement('div');
+    element.classList.add('person');
+
+    element.innerHTML = `<strong>${item.name}</strong> ${formatMoney(
+      item.money
+    )}`;
+    main.append(element);
+  });
+}
+
+// Format number as money
+function formatMoney(num) {
+  return `$${num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+}
