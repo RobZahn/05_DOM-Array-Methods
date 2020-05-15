@@ -42,6 +42,27 @@ function sortByRichest() {
   updateDOM();
 }
 
+// Filter out and display only millionaires
+function showOnlyMillionaires() {
+  data = data.filter(person => person.money >= 1000000);
+
+  updateDOM();
+}
+
+// Calculate total wealth of all bears
+function calculateWealthSum() {
+  const wealth = data.reduce((acc, person) => {
+    return (acc += person.money);
+  }, 0);
+
+  const wealthEl = document.createElement('div');
+  wealthEl.innerHTML = `<h3>Total Wealth: <strong>${formatMoney(
+    wealth
+  )}</strong></h3>`;
+
+  main.append(wealthEl);
+}
+
 // Add new object to data array
 function addData(obj) {
   data.push(obj);
@@ -61,6 +82,7 @@ function updateDOM(providedData = data) {
     element.innerHTML = `<strong>${item.name}</strong> ${formatMoney(
       item.money
     )}`;
+
     main.append(element);
   });
 }
@@ -72,6 +94,8 @@ function formatMoney(num) {
 
 // Event listeners
 
-addUserBtn.addEventListener('click', getRandomUser);
-doubleBtn.addEventListener('click', doubleMoney);
 sortBtn.addEventListener('click', sortByRichest);
+doubleBtn.addEventListener('click', doubleMoney);
+addUserBtn.addEventListener('click', getRandomUser);
+calculateWealthBtn.addEventListener('click', calculateWealthSum);
+showMillionairesBtn.addEventListener('click', showOnlyMillionaires);
